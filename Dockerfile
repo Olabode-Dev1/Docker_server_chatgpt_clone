@@ -1,21 +1,20 @@
-FROM node:latest
-# Create app Directory
-WORKDIR  /home/ubuntu/gpt/chat-gpt-clone
+# Use a specific Node version for stability
+FROM node:16-alpine
 
-#Install app depenencies
+# Set the working directory
+WORKDIR /home/ubuntu/gpt/chat-gpt-clone
 
+# Copy package.json and package-lock.json (if it exists) for dependency installation
 COPY package*.json ./
 
-#Copying package.json and package-lock.json (if its exists) from the local directory to the working directory.
-
+# Install app dependencies
 RUN npm install
-#Install the dependencies in your packge json.file
 
-COPY . /home/ubuntu/gpt/chat-gpt-clone
-#Copies the source code from your local directory to container working directory
+# Copy the rest of the application source code
+COPY . .
 
+# Expose the port the app will run on
 EXPOSE 3000
-#Indicates the application inside the container will listen on port 3000
 
-CMD [ "npm","start"]
-#Indicates the default command when the container is started from the image
+# Define the default command to run when the container starts
+CMD ["npm", "start"]
